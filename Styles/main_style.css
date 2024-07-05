@@ -103,6 +103,32 @@ h3{
   margin-top: 30px;
 }
 
+.button {
+  padding: 120px 60px;
+  font-size: 16px;
+  background-color: #e91010;
+  font-size: 50px;
+  color: white;
+  border: 10px solid white;
+  border-radius: 200%;
+  cursor: pointer;
+  outline: none; /* Evita el borde al hacer click */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+  display: inline-block; /* Para que el tamaño del botón se ajuste automáticamente */
+  text-decoration: none; /* Eliminar subrayado */
+}
+
+/* Estilo cuando se hace click */
+.button:active {
+  background-color: #b30000;
+  transform: scale(0.95); /* Reducir tamaño momentáneamente */
+}
+
+/* Estilo al salir del click */
+.button:focus {
+  outline: none; /* Evitar borde al enfocar */
+}
+
 /*--------------------------------------*/
 /*Bloque 2*/
 #bloque_2{
@@ -115,6 +141,7 @@ h3{
 .botonazo{
   width: 90vw;
   cursor: pointer;
+  display:none;
 }
 /*--------------------------------------*/
 /*Bloque 3*/
@@ -141,6 +168,12 @@ h3{
   }
   .boton_start{
     margin-top: 10px;
+  }
+  .button {
+    padding: 120px 60px;
+    font-size: 16px;
+    font-size: 50px;
+    cursor: pointer;
   }
   .botonazo{
     width: 30vw;
