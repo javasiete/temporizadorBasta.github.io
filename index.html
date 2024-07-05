@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Temporizador 10 Segs</title> <!-- TITULO EN LA PESTAÑA -->
+
+    <!-- Link a los iconitos -->
+    <script src="https://kit.fontawesome.com/c3d324dd6f.js" crossorigin="anonymous"></script>
+
+    <!-- Link a los Estilos en CSS -->
+    <link rel="stylesheet" href="./Styles/main_style.css"/>
+
+  </head>
+
+  <body>
+    <div class="main">
+
+      <div id="bloque_1">
+        <h2>Setea el Timer</h2>
+        <p>Coloca entre 5 a 30 segundos.</p><br>
+        <div class="control-container">
+          <button id="decrease" class="boton_costado">-</button>
+          <input type="number" id="timeInput" value="10" min="0" max="30" readonly>
+          <button id="increase" class="boton_costado">+</button>
+        </div>
+  
+        <button id="start" class="boton_start">Iniciar el Juego</button>
+
+        <!-- Este es el visualizador para ver si funciona bien el temporizador -->
+        <div id="timerDisplay" style="font-size: 24px; margin-top: 10px; color:rgb(155, 21, 21)"></div>
+        <!-- Lo pongo aca porque no quiero que se vea -->
+
+      </div>
+
+      <div id="bloque_2">
+        
+        <!-- Este boton fue reemplazado por el de abajo -->
+        <!-- <button id="acierto" class="boton_start">Acierto</button> -->
+                
+        <a onclick="resetTimer()">
+          <img src="./imgs/botonazo.png" alt="" class="botonazo">
+        </a>
+      </div>
+      
+      <div id="bloque_3">
+        <h2>¡Perdiste!</h2>
+        <a onclick="volver_al_menu()">
+          <img src="./imgs/perdiste2.png" alt="" class="perdiste">
+        </a>
+        <br>
+        <p>Clickea en el Reloj para regresar al Menú.</p>
+      </div>
+      
+      <audio id="sonido_acierto" src="./imgs/acierto.mp3" preload="auto"></audio>
+      <audio id="sonido_campana" src="./imgs/campana.mp3" preload="auto"></audio>
+      <audio id="sonido_reloj" src="./imgs/reloj.mp3" preload="auto"></audio>
+    </div> <!-- Fin del Main -->
+
+    <script src="./JS/main_js.js"> </script> 
+
+  </body>
+
+  
+
+</html>
+
+
