@@ -78,10 +78,16 @@ h3{
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 #timeInput{
   color: black;
   font-size: 35px;
+  text-align: center;
+  width: 120px;
+  padding-left: 0px;
+  border: 2px solid black;
+  cursor:not-allowed;
 }
 
 .boton_start{
@@ -93,6 +99,8 @@ h3{
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  margin-top: 30px;
 }
 
 /*--------------------------------------*/
@@ -106,6 +114,7 @@ h3{
 
 .botonazo{
   width: 90vw;
+  cursor: pointer;
 }
 /*--------------------------------------*/
 /*Bloque 3*/
@@ -118,4 +127,27 @@ h3{
 
 .perdiste {
   width: 80vw;
+  cursor: pointer;
 }
+
+/*-------------------------------------------------------------------------*/
+@media screen and (min-width: 401px) {
+  #timeInput{
+    color: black;
+    font-size: 35px;
+    text-align: center;
+    width: 120px;
+    padding-left: 15px;
+  }
+  .boton_start{
+    margin-top: 10px;
+  }
+  .botonazo{
+    width: 30vw;
+  }
+  .perdiste {
+    width: 30vw;
+  }
+}
+
+
