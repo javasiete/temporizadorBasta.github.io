@@ -1,55 +1,58 @@
 let countdown;
+let campanaTimeout;
 let timerDisplay = document.getElementById('timerDisplay');
 let startButton = document.getElementById('start');
 let sonido_acierto = document.getElementById('sonido_acierto');
 let sonido_campana = document.getElementById('sonido_campana');
-let sonido_reloj = document.getElementById('sonido_reloj');
-let timeInput = document.getElementById('timeInput');
-let decreaseButton = document.getElementById('decrease');
-let increaseButton = document.getElementById('increase');
+let sonido_reloj_8 = document.getElementById('sonido_reloj_8');
+let sonido_reloj_10 = document.getElementById('sonido_reloj_10');
+let sonido_reloj_12 = document.getElementById('sonido_reloj_12');
+let selectedOption = null;
+
+const optionButtons = {
+    option8: { button: document.getElementById('option8'), time: 8, sound: sonido_reloj_8 },
+    option10: { button: document.getElementById('option10'), time: 10, sound: sonido_reloj_10 },
+    option12: { button: document.getElementById('option12'), time: 12, sound: sonido_reloj_12 }
+};
 
 function showAlert(message) {
     alert(message);
 }
 
-function validateInput() {
-    let currentTime = parseInt(timeInput.value, 10);
-    if (currentTime < 5) {
-        showAlert("No puede poner menos de 5 segundos.");
-        timeInput.value = 5;
-        return false;
-    } else if (currentTime > 30) {
-        showAlert("No puede poner más de 30 segundos.");
-        timeInput.value = 30;
-        return false;
-    }
-    return true;
-}
-
 function toggleStartButton() {
-    let isValid = validateInput();
-    startButton.disabled = !isValid;
+    if (selectedOption) {
+        startButton.disabled = false;
+    } else {
+        startButton.disabled = true;
+    }
 }
 
-function updateTimeInput(value) {
-    let currentTime = parseInt(timeInput.value, 10);
-    currentTime = Math.min(30, Math.max(5, currentTime + value));
-    timeInput.value = currentTime;
-    toggleStartButton();
-}
-
-decreaseButton.addEventListener('click', () => updateTimeInput(-1));
-increaseButton.addEventListener('click', () => updateTimeInput(1));
+Object.keys(optionButtons).forEach(key => {
+    const option = optionButtons[key];
+    option.button.addEventListener('click', () => {
+        // Deselect previously selected option
+        if (selectedOption) {
+            selectedOption.button.classList.remove('selected');
+        }
+        // Select new option
+        selectedOption = option;
+        selectedOption.button.classList.add('selected');
+        toggleStartButton();
+    });
+});
 
 function startTimer() {
-    if (!validateInput()) return;
+    if (!selectedOption) {
+        showAlert("Debe seleccionar una opción.");
+        return;
+    }
     abrir_bloque_2();
 
     clearInterval(countdown);
-    let time = parseInt(timeInput.value, 10);
-    timeInput.disabled = true;
+    clearTimeout(campanaTimeout);
+    const { time, sound } = selectedOption;
+    sound.play();
     startButton.disabled = true;
-    sonido_reloj.play();
     const now = Date.now();
     const then = now + time * 1000;
     displayTimeLeft(time);
@@ -57,15 +60,14 @@ function startTimer() {
     countdown = setInterval(() => {
         const secondsLeft = Math.round((then - Date.now()) / 1000);
         const millisecondsLeft = then - Date.now();
-        
-        if (millisecondsLeft <= 5) { // Se detiene el sonido de tik-tak cuando falte medio segundo para acabarse el temporizador.
-            sonido_reloj.pause();
-            sonido_reloj.currentTime = 0;
+
+        if (millisecondsLeft <= 500) { // Se detiene el sonido de tik-tak cuando falte medio segundo para acabarse el temporizador.
+            sound.pause();
+            sound.currentTime = 0;
         }
 
         if (secondsLeft < 0) { // Si el temporizador llega a 0:
             clearInterval(countdown);
-            timeInput.disabled = false;
             toggleStartButton();
             abrir_bloque_3();
             return;
@@ -73,6 +75,14 @@ function startTimer() {
 
         displayTimeLeft(secondsLeft);
     }, 1000);
+
+    startCampanaTimer(time);
+}
+
+function startCampanaTimer(time) {
+    campanaTimeout = setTimeout(() => {
+        sonido_campana.play();
+    }, time * 1000);
 }
 
 function displayTimeLeft(seconds) {
@@ -81,33 +91,30 @@ function displayTimeLeft(seconds) {
 
 function resetTimer() {
     clearInterval(countdown);
-    let time = parseInt(timeInput.value, 10);
+    clearTimeout(campanaTimeout);
+    const { time, sound } = selectedOption;
     displayTimeLeft(time);
     sonido_acierto.play();
-    sonido_reloj.pause();
-    sonido_reloj.currentTime = 0;
-    sonido_reloj.play();
+    sound.pause();
+    sound.currentTime = 0;
+    sound.play();
     startTimer();
 }
 
 startButton.addEventListener('click', startTimer);
-//-------------------------------------------------------------------------------------------------
-//Funciones para pasar a las siguientes paginas:
+
 function abrir_bloque_2() {
     document.getElementById('bloque_1').style.display = 'none';
-    document.getElementById('bloque_2').style.display = 'flex';  
+    document.getElementById('bloque_2').style.display = 'flex';
 }
 
 function abrir_bloque_3() {
     document.getElementById('bloque_2').style.display = 'none';
-    document.getElementById('bloque_3').style.display = 'flex'; 
-    sonido_campana.play();  
+    document.getElementById('bloque_3').style.display = 'flex';
 }
 
 function volver_al_menu() {
     document.getElementById('bloque_3').style.display = 'none';
     document.getElementById('bloque_1').style.display = 'flex';
-    timeInput.disabled = false;
-    startButton.disabled = false;
     toggleStartButton();
 }

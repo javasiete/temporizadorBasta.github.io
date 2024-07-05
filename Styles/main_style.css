@@ -80,6 +80,9 @@ h3{
   justify-content: center;
   cursor: pointer;
 }
+.selected {
+  border: 2px solid yellow; /* Color del borde para la opción seleccionada */
+}
 #timeInput{
   color: black;
   font-size: 35px;
