@@ -65,7 +65,6 @@ function startTimer() {
 
         if (secondsLeft < 0) { // Si el temporizador llega a 0:
             clearInterval(countdown);
-            sonido_campana.play();
             timeInput.disabled = false;
             toggleStartButton();
             abrir_bloque_3();
@@ -101,7 +100,8 @@ function abrir_bloque_2() {
 
 function abrir_bloque_3() {
     document.getElementById('bloque_2').style.display = 'none';
-    document.getElementById('bloque_3').style.display = 'flex';  
+    document.getElementById('bloque_3').style.display = 'flex'; 
+    sonido_campana.play();  
 }
 
 function volver_al_menu() {
