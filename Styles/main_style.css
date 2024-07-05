@@ -81,7 +81,13 @@ h3{
   cursor: pointer;
 }
 .selected {
-  border: 2px solid yellow; /* Color del borde para la opción seleccionada */
+
+    box-shadow: 0 0 10px rgba(255, 229, 112, 0.8), 
+                  0 0 20px rgba(255, 235, 148, 0.8),  
+                  0 0 30px rgba(202, 187, 118, 0.8);
+    /*border: 3px solid lightyellow;*/  
+    filter: brightness(1.5);
+  
 }
 #timeInput{
   color: black;
