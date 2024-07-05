@@ -81,7 +81,7 @@ function startTimer() {
 
 function startCampanaTimer(time) {
     campanaTimeout = setTimeout(() => {
-        sonido_campana.play();
+        
     }, time * 1000);
 }
 
