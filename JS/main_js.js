@@ -1,18 +1,16 @@
 let countdown;
-let campanaTimeout;
 let timerDisplay = document.getElementById('timerDisplay');
 let startButton = document.getElementById('start');
 let sonido_acierto = document.getElementById('sonido_acierto');
-let sonido_campana = document.getElementById('sonido_campana');
 let sonido_reloj_8 = document.getElementById('sonido_reloj_8');
 let sonido_reloj_10 = document.getElementById('sonido_reloj_10');
 let sonido_reloj_12 = document.getElementById('sonido_reloj_12');
 let selectedOption = null;
 
 const optionButtons = {
-    option8: { button: document.getElementById('option8'), time: 8, sound: sonido_reloj_8 },
-    option10: { button: document.getElementById('option10'), time: 10, sound: sonido_reloj_10 },
-    option12: { button: document.getElementById('option12'), time: 12, sound: sonido_reloj_12 }
+    option8: { button: document.getElementById('option8'), time: 8, sound: sonido_reloj_8, value: 1 },
+    option10: { button: document.getElementById('option10'), time: 10, sound: sonido_reloj_10, value: 2 },
+    option12: { button: document.getElementById('option12'), time: 12, sound: sonido_reloj_12, value: 3 }
 };
 
 function showAlert(message) {
@@ -20,11 +18,7 @@ function showAlert(message) {
 }
 
 function toggleStartButton() {
-    if (selectedOption) {
-        startButton.disabled = false;
-    } else {
-        startButton.disabled = true;
-    }
+    startButton.disabled = !selectedOption;
 }
 
 Object.keys(optionButtons).forEach(key => {
@@ -49,8 +43,8 @@ function startTimer() {
     abrir_bloque_2();
 
     clearInterval(countdown);
-    clearTimeout(campanaTimeout);
     const { time, sound } = selectedOption;
+    sound.currentTime = 0;
     sound.play();
     startButton.disabled = true;
     const now = Date.now();
@@ -59,13 +53,7 @@ function startTimer() {
 
     countdown = setInterval(() => {
         const secondsLeft = Math.round((then - Date.now()) / 1000);
-        const millisecondsLeft = then - Date.now();
-
-        if (millisecondsLeft <= 500) { // Se detiene el sonido de tik-tak cuando falte medio segundo para acabarse el temporizador.
-            sound.pause();
-            sound.currentTime = 0;
-        }
-
+        
         if (secondsLeft < 0) { // Si el temporizador llega a 0:
             clearInterval(countdown);
             toggleStartButton();
@@ -75,14 +63,6 @@ function startTimer() {
 
         displayTimeLeft(secondsLeft);
     }, 1000);
-
-    startCampanaTimer(time);
-}
-
-function startCampanaTimer(time) {
-    campanaTimeout = setTimeout(() => {
-        
-    }, time * 1000);
 }
 
 function displayTimeLeft(seconds) {
@@ -91,11 +71,9 @@ function displayTimeLeft(seconds) {
 
 function resetTimer() {
     clearInterval(countdown);
-    clearTimeout(campanaTimeout);
     const { time, sound } = selectedOption;
     displayTimeLeft(time);
     sonido_acierto.play();
-    sound.pause();
     sound.currentTime = 0;
     sound.play();
     startTimer();
